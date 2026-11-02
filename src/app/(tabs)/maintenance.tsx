@@ -171,18 +171,20 @@ export default function MaintenanceScreen() {
                     return (
                       <View key={srv.name} style={[styles.healthItem, { borderBottomColor: colors.border }]}>
                         <Text style={[styles.healthItemName, { color: colors.text }]}>{srv.name}</Text>
-                        {health?.status === 'unknown' ? (
+                        {!health || health.status === 'unknown' ? (
                           <Text style={{ fontSize: 12, color: colors.textMuted }}>Sem registro</Text>
                         ) : (
                           <View style={{ alignItems: 'flex-end' }}>
-                            {srv.km > 0 && (
-                              <Text style={{ fontSize: 12, color: health!.remainingKm < 0 ? colors.danger : health!.color, fontWeight: 'bold' }}>
-                                {health!.remainingKm < 0 ? 'Vencido!' : `Faltam ${health!.remainingKm} km`}
+                            {srv.km > 0 && health.remainingKm !== undefined && (
+                              <Text style={{ fontSize: 12, color: health.remainingKm < 0 ? colors.danger : health.color, fontWeight: 'bold' }}>
+                                {health.remainingKm < 0 ? 'Vencido!' : `Faltam ${health.remainingKm} km`}
                               </Text>
                             )}
-                            <Text style={{ fontSize: 12, color: health!.remainingDays < 0 ? colors.danger : health!.color, fontWeight: 'bold' }}>
-                              {health!.remainingDays < 0 ? 'Vencido!' : `Faltam ${health!.remainingDays} dias`}
-                            </Text>
+                            {health.remainingDays !== undefined && (
+                              <Text style={{ fontSize: 12, color: health.remainingDays < 0 ? colors.danger : health.color, fontWeight: 'bold' }}>
+                                {health.remainingDays < 0 ? 'Vencido!' : `Faltam ${health.remainingDays} dias`}
+                              </Text>
+                            )}
                           </View>
                         )}
                       </View>
